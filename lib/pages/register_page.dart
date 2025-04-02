@@ -1,17 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:myapp/pages/principal_page.dart';
-import 'register_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:myapp/pages/login_page.dart';
+import 'package:myapp/pages/principal_page.dart';
+
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final senhaController = TextEditingController();
+  final confirmarSenhaController = TextEditingController();
   bool _obscureText = true;
 
   @override
@@ -24,13 +26,13 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 100),
-
+              
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   children: [
                     Text(
-                      'Faça login',
+                      'Registre-se',
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -38,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Text(
-                      'Digite seu email e senha para continuar!',
+                      'Digite seu email, senha e confirme para continuar!',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w300,
@@ -49,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              Container(margin: EdgeInsets.only(bottom: 100)),
+              Container(margin: EdgeInsets.only(bottom: 80)),
 
               Container(
                 width: double.infinity,
@@ -96,6 +98,35 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                child: TextField(
+                  controller: confirmarSenhaController,
+                  obscureText: _obscureText,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(color: Colors.black, Icons.lock),
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: 'Confirme sua senha',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(35),
+                    ),
+                    suffixIcon: IconButton(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(height: 50),
               Container(
                 width: double.infinity,
@@ -109,13 +140,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   onPressed: () {
-                    String fixedEmail = 'teste@gmail.com';
-                    String fixedSenha = '123';
-
                     String email = emailController.text;
                     String senha = senhaController.text;
+                    String confirmarSenha = confirmarSenhaController.text;
 
-                    if (email.isEmpty || senha.isEmpty) {
+                    if (email.isEmpty || senha.isEmpty || confirmarSenha.isEmpty) {
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -133,22 +162,13 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         },
                       );
-                    }
-
-                    if (email == fixedEmail && senha == fixedSenha) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PrincipalPage(),
-                        ),
-                      );
-                    } else if (email != fixedEmail || senha != fixedSenha) {
+                    } else if (senha != confirmarSenha) {
                       showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
                             title: const Text('Erro'),
-                            content: const Text('E-mail ou senha incorretos!'),
+                            content: const Text('Senhas diferentes!'),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -160,10 +180,17 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         },
                       );
+                    } else {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PrincipalPage(),
+                        ),
+                      );
                     }
                   },
                   child: const Text(
-                    'Login',
+                    'Registrar',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
                 ),
@@ -176,11 +203,11 @@ class _LoginPageState extends State<LoginPage> {
                   onTap: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
                   child: Text(
-                    'Não tem conta? Cadastre-se',
+                    'Já tem conta? Entre',
                     style: TextStyle(color: Colors.white, fontSize: 15),
                     textAlign: TextAlign.center,
                   ),

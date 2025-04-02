@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/dadosCadastrais_page.dart';
+import 'package:myapp/pages/inicial_page.dart';
+import 'package:myapp/pages/principal_page.dart';
 import 'login_page.dart';
-import 'termosPrivacidade_page.dart';
+import 'dadosCadastrais_page.dart';
 import 'inicial_page.dart';
 
-class PrincipalPage extends StatefulWidget {
-  const PrincipalPage({Key? key}) : super(key: key);
-
-  @override
-  State<PrincipalPage> createState() => _PrincipalPageState();
-}
-
-class _PrincipalPageState extends State<PrincipalPage> {
+class TermosPrivacidadePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pagina Principal')),
-      
+      appBar: AppBar(
+        title: Text('Termos de Uso e Privacidade'),
+      ),
+
       drawer: Drawer(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -28,7 +24,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TermosPrivacidadePage(),
+                      builder: (context) => PrincipalPage(),
                     ),
                   );
                 },
@@ -37,9 +33,9 @@ class _PrincipalPageState extends State<PrincipalPage> {
                   width: double.infinity,
                   child: Row(
                     children: [
-                      Icon(Icons.privacy_tip),
+                      Icon(Icons.home),
                       SizedBox(width: 10),
-                      Text("Termos de uso e privacidade"),
+                      Text("Home"),
                     ],
                   ),
                 ),
@@ -92,6 +88,40 @@ class _PrincipalPageState extends State<PrincipalPage> {
           ),
         ),
       ),
-    );
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Termos de Uso',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Aqui você pode colocar os termos de uso do seu aplicativo. '
+                'Certifique-se de incluir todas as informações relevantes '
+                'para os usuários.',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 32),
+              Text(
+                'Política de Privacidade',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Aqui você pode colocar a política de privacidade do seu aplicativo. '
+                'Certifique-se de incluir todas as informações relevantes '
+                'sobre como os dados dos usuários serão tratados.',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );  
   }
 }
